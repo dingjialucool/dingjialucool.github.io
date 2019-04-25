@@ -81,7 +81,7 @@
 
 
 
-  <meta name="keywords" content="Mysql,">
+  <meta name="keywords" content="Java工具类,">
 
 
 
@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="Mybatis中动态SQL(if,foreach…等等)   记录一下，方便忘记时查找。">
-<meta name="keywords" content="Mysql">
+<meta name="description" content="邮件发送项目中经常要使用到邮件发送，记录一下，方便下次使用。">
+<meta name="keywords" content="Java工具类">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mybatis中动态SQL">
-<meta property="og:url" content="https://dingjialucool.github.io/2019/03/12/Mybatis中动态SQL/index.html">
+<meta property="og:title" content="邮件推送">
+<meta property="og:url" content="https://dingjialucool.github.io/2019/03/12/邮件发送/index.html">
 <meta property="og:site_name" content="及时行乐">
-<meta property="og:description" content="Mybatis中动态SQL(if,foreach…等等)   记录一下，方便忘记时查找。">
+<meta property="og:description" content="邮件发送项目中经常要使用到邮件发送，记录一下，方便下次使用。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-25T03:30:44.290Z">
+<meta property="og:updated_time" content="2019-04-25T04:59:11.657Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mybatis中动态SQL">
-<meta name="twitter:description" content="Mybatis中动态SQL(if,foreach…等等)   记录一下，方便忘记时查找。">
+<meta name="twitter:title" content="邮件推送">
+<meta name="twitter:description" content="邮件发送项目中经常要使用到邮件发送，记录一下，方便下次使用。">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://dingjialucool.github.io/2019/03/12/Mybatis中动态SQL/">
+  <link rel="canonical" href="https://dingjialucool.github.io/2019/03/12/邮件发送/">
 
 
 
 
 
-  <title>Mybatis中动态SQL | 及时行乐</title>
+  <title>邮件推送 | 及时行乐</title>
   
 
 
@@ -287,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dingjialucool.github.io/2019/03/12/Mybatis中动态SQL/">
+    <link itemprop="mainEntityOfPage" href="https://dingjialucool.github.io/2019/03/12/邮件发送/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DingZiFan">
@@ -304,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mybatis中动态SQL</h1>
+          <h1 class="post-title" itemprop="name headline">邮件推送</h1>
         
 
         <div class="post-meta">
@@ -339,8 +339,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">Mysql</span>
+                  <a href="/categories/SSM框架问题/" itemprop="url" rel="index">
+                    <span itemprop="name">SSM框架问题</span>
                   </a>
                 </span>
 
@@ -356,7 +356,7 @@
 
           
           
-             <span id="/2019/03/12/Mybatis中动态SQL/" class="leancloud_visitors" data-flag-title="Mybatis中动态SQL">
+             <span id="/2019/03/12/邮件发送/" class="leancloud_visitors" data-flag-title="邮件推送">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -381,7 +381,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  657
+                  1.3k
                 </span>
               
 
@@ -397,7 +397,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  3
+                  7
                 </span>
               
             </div>
@@ -418,63 +418,335 @@
       
 
       
-        <h2 id="Mybatis中动态SQL-if-foreach…等等"><a href="#Mybatis中动态SQL-if-foreach…等等" class="headerlink" title="Mybatis中动态SQL(if,foreach…等等)"></a>Mybatis中动态SQL(if,foreach…等等)</h2><p>   记录一下，方便忘记时查找。<a id="more"></a></p>
-<pre><code>1. statement中直接定义使用动态SQL（if-where）：
-</code></pre><p>在statement中利用if 和 where 条件组合达到我们的需求，通过一个例子来说明：<br>原SQL语句：</p>
-<pre><code>&lt;select id=&quot;findUserByNameAndSex&quot; parameterType =&quot;User&quot; resultType=&quot;User&quot;&gt;
-    select * from user
-    where username = #{user.username} and sex = #{user.sex}
-&lt;/select&gt;
-</code></pre><p>现在需求是，如果返回值User为空或者User中的属性值为空的话（在这里就是user.username或者user.sex）为空的话我们怎么进行灵活的处理是程序不报异常。做法利用if和where判断进行SQL拼接。</p>
-<pre><code>&lt;select id=&quot;findUserByNameAndSex&quot; parameterType =&quot;User&quot; resultType=&quot;User&quot;&gt;
-    select * from user
-&lt;where&gt;
-    &lt;if test=&quot;user != null&quot;&gt;
-        &lt;if test=&quot;user.username != null and user.username != &apos;&apos;&quot;&gt;&lt;!-- 注意and不能大写 --&gt;
-            and username = #{user.username}
-        &lt;/if&gt;
-        &lt;if test=&quot;user.sex != null and user.sex != &apos;&apos;&quot;&gt;
-            and sex = #{user.sex}
-        &lt;/if&gt;
-    &lt;/if&gt;
-&lt;/where&gt;
-</code></pre><p>有时候我们经常使用where 1=1这条语句来处理第一条拼接语句，我们可以使用&lt; where &gt; &lt; where /&gt;来同样实现这一功能，而且如果where能在第一次满足添加条件时会自动补全where这个单词，而且如果有and会替换掉。 </p>
-<ol start="2">
-<li>使用foreach进行sql语句拼接</li>
-</ol>
-<p>在向sql传递数组或List，mybatis使用foreach解析，我们可以使用foreach中元素进行sql语句的拼接，请求数据。<br>通过一个例子来看：<br>需求：SELECT <em> FROM USER WHERE id=1 OR id=10 OR id=16<br>或者：SELECT </em> FROM USER WHERE id IN(1,10,16)</p>
-<pre><code>&lt;if test=&quot;ids != null&quot;&gt;     
-        &lt;foreach collection=&quot;ids&quot; item=&quot;user_id&quot; open=&quot;AND (&quot; close=&quot;)&quot; separator=&quot;or&quot; &gt;
-    每次遍历需要拼接的串
-                id= #{user_id}
-        &lt;/foreach&gt;
- &lt;/if&gt;
-</code></pre><p>其中，collection:指定输入对象中集合属性，item: 每个遍历生成对象，open：开始遍历时拼接串，close: 结束遍历是拼接的串，separator: 遍历的两个对象中需要拼接的串</p>
-<pre><code>&lt;if test=&quot;ids != null&quot;&gt;     
-    &lt;foreach collection=&quot;ids&quot; item=&quot;user_id&quot; open=&quot;and id IN(&quot; close=&quot;)&quot; separator=&quot;,&quot;&gt;
-                id= #{user_id}
-    &lt;/foreach&gt;
-&lt;if&gt;
-</code></pre><ol start="3">
-<li><p>choose、when、otherwise</p>
-<p>类似于Java中的switch case default，即当有一个条件满足时，便不会往下继续判断了，当全部when都不满足时，执行otherwise。<br><select id="getEmpByChoose" resulttype="Emp" parametertype="Emp"></select></p>
-<pre><code>select * from emp where 1 = 1
-&lt;choose&gt;
-    &lt;when test=&quot;job != null&quot;&gt;
-        and job = #{job}      //当job不为空时，下面的便不会再执行了
-    &lt;/when&gt;
-    &lt;when test=&quot;deptno != null&quot;&gt;
-        and deptno = #{deptno}
-    &lt;/when&gt;
-    &lt;otherwise&gt;
-        and mgr = #{mgr}
-    &lt;/otherwise&gt;
-&lt;/choose&gt;
-</code></pre> <select>
+        <h2 id="邮件发送"><a href="#邮件发送" class="headerlink" title="邮件发送"></a>邮件发送</h2><p>项目中经常要使用到邮件发送，记录一下，方便下次使用。<a id="more"></a><br>首先导包。maven依赖。</p>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;io.github.biezhi&lt;/groupId&gt;
+            &lt;artifactId&gt;oh-my-email&lt;/artifactId&gt;
+            &lt;version&gt;0.0.4&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>然后就是邮件类。一个类是邮件发送的各种方式，一个类是处理邮件异常类。<br>邮件发送方式类</p>
+<pre><code>package com.chinobot.common.email;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.io.File;
+import java.net.URL;
+import java.util.*;
 
+public class OhMyEmail {
 
-</select></li>
-</ol>
+    private static Session session;
+    private static String  user;
+    private MimeMessage        msg;
+    private String             text;
+    private String             html;
+    private List&lt;MimeBodyPart&gt; attachments = new ArrayList&lt;MimeBodyPart&gt;();
+
+    private OhMyEmail() {
+    }
+
+    public static Properties defaultConfig(Boolean debug) {
+        Properties props = new Properties();
+        props.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);
+        props.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);
+        props.put(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);
+        props.put(&quot;mail.debug&quot;, null != debug ? debug.toString() : &quot;false&quot;);
+        props.put(&quot;mail.smtp.timeout&quot;, &quot;10000&quot;);
+        props.put(&quot;mail.smtp.port&quot;, &quot;465&quot;);
+        return props;
+    }
+    /**
+     * smtp entnterprise qq
+     *
+     * @param debug
+     * @return
+     */
+    public static Properties SMTP_ENT_QQ(boolean debug) {
+        Properties props = defaultConfig(debug);
+        props.put(&quot;mail.smtp.host&quot;, &quot;smtp.exmail.qq.com&quot;);
+        return props;
+    }
+    /**
+     * smtp qq
+     *
+     * @param debug enable debug
+     * @return
+     */
+    public static Properties SMTP_QQ(boolean debug) {
+        Properties props = defaultConfig(debug);
+        props.put(&quot;mail.smtp.host&quot;, &quot;smtp.qq.com&quot;);
+        return props;
+    }
+    /**
+     * smtp 163
+     *
+     * @param debug enable debug
+     * @return
+     */
+    public static Properties SMTP_163(Boolean debug) {
+        Properties props = defaultConfig(debug);
+        props.put(&quot;mail.smtp.host&quot;, &quot;smtp.163.com&quot;);
+        return props;
+    }
+    /**
+     * config username and password
+     *
+     * @param props    email property config
+     * @param username email auth username
+     * @param password email auth password
+     */
+    public static void config(Properties props, final String username, final String password) {
+        props.setProperty(&quot;username&quot;, username);
+        props.setProperty(&quot;password&quot;, password);
+        config(props);
+    }
+    public static void config(Properties props) {
+        final String username = props.getProperty(&quot;username&quot;);
+        final String password = props.getProperty(&quot;password&quot;);
+        user = username;
+        session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+    }
+    /**
+     * set email subject
+     *
+     * @param subject subject title
+     */
+    public static OhMyEmail subject(String subject) throws SendMailException {
+        OhMyEmail ohMyEmail = new OhMyEmail();
+        ohMyEmail.msg = new MimeMessage(session);
+        try {
+            ohMyEmail.msg.setSubject(subject, &quot;UTF-8&quot;);
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return ohMyEmail;
+    }
+    /**
+     * set email from
+     *
+     * @param nickName from nickname
+     */
+    public OhMyEmail from(String nickName) throws SendMailException {
+        return from(nickName, user);
+    }
+    /**
+     * set email nickname and from user
+     *
+     * @param nickName from nickname
+     * @param from     from email
+     */
+    public OhMyEmail from(String nickName, String from) throws SendMailException {
+        try {
+            String encodeNickName = MimeUtility.encodeText(nickName);
+            msg.setFrom(new InternetAddress(encodeNickName + &quot; &lt;&quot; + from + &quot;&gt;&quot;));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return this;
+    }
+    public OhMyEmail replyTo(String... replyTo) throws SendMailException {
+        String result = Arrays.asList(replyTo).toString().replaceAll(&quot;(^\\[|\\]$)&quot;, &quot;&quot;).replace(&quot;, &quot;, &quot;,&quot;);
+        try {
+            msg.setReplyTo(InternetAddress.parse(result));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return this;
+    }
+    public OhMyEmail replyTo(String replyTo) throws SendMailException {
+        try {
+            msg.setReplyTo(InternetAddress.parse(replyTo.replace(&quot;;&quot;, &quot;,&quot;)));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return this;
+    }
+    public OhMyEmail to(String... to) throws SendMailException {
+        try {
+            return addRecipients(to, Message.RecipientType.TO);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail to(String to) throws SendMailException {
+        try {
+            return addRecipient(to, Message.RecipientType.TO);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail cc(String... cc) throws SendMailException {
+        try {
+            return addRecipients(cc, Message.RecipientType.CC);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail cc(String cc) throws SendMailException {
+        try {
+            return addRecipient(cc, Message.RecipientType.CC);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail bcc(String... bcc) throws SendMailException {
+        try {
+            return addRecipients(bcc, Message.RecipientType.BCC);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail bcc(String bcc) throws MessagingException {
+        return addRecipient(bcc, Message.RecipientType.BCC);
+    }
+    private OhMyEmail addRecipients(String[] recipients, Message.RecipientType type) throws MessagingException {
+        String result = Arrays.asList(recipients).toString().replace(&quot;(^\\[|\\]$)&quot;, &quot;&quot;).replace(&quot;, &quot;, &quot;,&quot;);
+        msg.setRecipients(type, InternetAddress.parse(result));
+        return this;
+    }
+    private OhMyEmail addRecipient(String recipient, Message.RecipientType type) throws MessagingException {
+        msg.setRecipients(type, InternetAddress.parse(recipient.replace(&quot;;&quot;, &quot;,&quot;)));
+        return this;
+    }
+    public OhMyEmail text(String text) {
+        this.text = text;
+        return this;
+    }
+    public OhMyEmail html(String html) {
+        this.html = html;
+        return this;
+    }
+    public OhMyEmail attach(File file) throws SendMailException {
+        attachments.add(createAttachment(file, null));
+        return this;
+    }
+    public OhMyEmail attach(File file, String fileName) throws SendMailException {
+        attachments.add(createAttachment(file, fileName));
+        return this;
+    }
+    public OhMyEmail attachURL(URL url, String fileName) throws SendMailException {
+        attachments.add(createURLAttachment(url, fileName));
+        return this;
+    }
+    private MimeBodyPart createAttachment(File file, String fileName) throws SendMailException {
+        MimeBodyPart   attachmentPart = new MimeBodyPart();
+        FileDataSource fds            = new FileDataSource(file);
+        try {
+            attachmentPart.setDataHandler(new DataHandler(fds));
+            attachmentPart.setFileName(null == fileName ? MimeUtility.encodeText(fds.getName()) : MimeUtility.encodeText(fileName));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return attachmentPart;
+    }
+    private MimeBodyPart createURLAttachment(URL url, String fileName) throws SendMailException {
+        MimeBodyPart attachmentPart = new MimeBodyPart();
+        DataHandler dataHandler = new DataHandler(url);
+        try {
+            attachmentPart.setDataHandler(dataHandler);
+            attachmentPart.setFileName(null == fileName ? MimeUtility.encodeText(fileName) : MimeUtility.encodeText(fileName));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return attachmentPart;
+    }
+    public void send() throws SendMailException {
+        if (text == null &amp;&amp; html == null) {
+            throw new IllegalArgumentException(&quot;At least one context has to be provided: Text or Html&quot;);
+        }
+        MimeMultipart cover;
+        boolean       usingAlternative = false;
+        boolean       hasAttachments   = attachments.size() &gt; 0;
+        try {
+            if (text != null &amp;&amp; html == null) {
+                // TEXT ONLY
+                cover = new MimeMultipart(&quot;mixed&quot;);
+                cover.addBodyPart(textPart());
+            } else if (text == null &amp;&amp; html != null) {
+                // HTML ONLY
+                cover = new MimeMultipart(&quot;mixed&quot;);
+                cover.addBodyPart(htmlPart());
+            } else {
+                // HTML + TEXT
+                cover = new MimeMultipart(&quot;alternative&quot;);
+                cover.addBodyPart(textPart());
+                cover.addBodyPart(htmlPart());
+                usingAlternative = true;
+            }
+            MimeMultipart content = cover;
+            if (usingAlternative &amp;&amp; hasAttachments) {
+                content = new MimeMultipart(&quot;mixed&quot;);
+                content.addBodyPart(toBodyPart(cover));
+            }
+            for (MimeBodyPart attachment : attachments) {
+                content.addBodyPart(attachment);
+            }
+            msg.setContent(content);
+            msg.setSentDate(new Date());
+            Transport.send(msg);
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+    }
+    private MimeBodyPart toBodyPart(MimeMultipart cover) throws MessagingException {
+        MimeBodyPart wrap = new MimeBodyPart();
+        wrap.setContent(cover);
+        return wrap;
+    }
+    private MimeBodyPart textPart() throws MessagingException {
+        MimeBodyPart bodyPart = new MimeBodyPart();
+        bodyPart.setText(text);
+        return bodyPart;
+    }
+    private MimeBodyPart htmlPart() throws MessagingException {
+        MimeBodyPart bodyPart = new MimeBodyPart();
+        bodyPart.setContent(html, &quot;text/html; charset=utf-8&quot;);
+        return bodyPart;
+    }
+}
+</code></pre><p>邮件处理异常类</p>
+<pre><code>package com.chinobot.common.email;
+public class SendMailException extends Exception {
+
+    public SendMailException() {
+    }
+    public SendMailException(String message) {
+        super(message);
+    }
+    public SendMailException(Throwable cause) {
+        super(cause);
+    }
+}
+</code></pre><p>运行测试类</p>
+<pre><code>/**
+     *     邮件推送
+     * @param email
+     */
+    private boolean emailPush(String email) {
+        // 配置，一次即可
+        OhMyEmail.config(SMTP_QQ(true), emailAccount, emailPassword);
+        try {
+            OhMyEmail.subject(&quot;这是一封测试TEXT邮件&quot;)
+            .from(fromAddress)
+            .to(&quot;2635287867@qq.com&quot;)
+            .text(emailText)
+            .send();
+        } catch (SendMailException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;    
+    }
+</code></pre><p>OhMyEmail为邮件类，emailAccount为QQ邮箱账号，emailPassword为QQ邮箱授权码（<strong>注意</strong>），fromAddress为从哪里发送邮箱，to表示你要发送给谁，emailTest为发送的文本。最后发送成功时可以看到</p>
+<pre><code>DEBUG SMTP: message successfully delivered to mail server
+QUIT
+221 Bye
+</code></pre><p>完！</p>
 
       
     </div>
@@ -492,7 +764,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Mysql/" rel="tag"><i class="fa fa-tag"></i>Mysql</a>
+            <a href="/tags/Java工具类/" rel="tag"><i class="fa fa-tag"></i>Java工具类</a>
           
         </div>
       
@@ -505,8 +777,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/12/邮件发送/" rel="next" title="邮件推送">
-                <i class="fa fa-chevron-left"></i> 邮件推送
+              <a href="/2019/03/11/Windows下搭建博客/" rel="next" title="博客搭建">
+                <i class="fa fa-chevron-left"></i> 博客搭建
               </a>
             
           </div>
@@ -515,8 +787,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/12/Mysql时间戳格式转换/" rel="prev" title="Mysql时间戳格式转换问题">
-                Mysql时间戳格式转换问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/12/Mybatis中动态SQL/" rel="prev" title="Mybatis中动态SQL">
+                Mybatis中动态SQL <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -693,7 +965,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mybatis中动态SQL-if-foreach…等等"><span class="nav-number">1.</span> <span class="nav-text">Mybatis中动态SQL(if,foreach…等等)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#邮件发送"><span class="nav-number">1.</span> <span class="nav-text">邮件发送</span></a></li></ol></div>
             
 
           </div>
