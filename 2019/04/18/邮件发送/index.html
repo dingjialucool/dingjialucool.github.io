@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #24292e; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ic.gif?v=5.1.4">
+
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java工具类,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="邮件发送项目中经常要使用到邮件发送，记录一下，方便下次使用。">
+<meta name="keywords" content="Java工具类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="邮件发送">
+<meta property="og:url" content="https://dingjialucool.github.io/2019/04/18/邮件发送/index.html">
+<meta property="og:site_name" content="及时行乐">
+<meta property="og:description" content="邮件发送项目中经常要使用到邮件发送，记录一下，方便下次使用。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-25T12:32:17.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="邮件发送">
+<meta name="twitter:description" content="邮件发送项目中经常要使用到邮件发送，记录一下，方便下次使用。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dingjialucool.github.io/2019/04/18/邮件发送/">
+
+
+
+
+
+  <title>邮件发送 | 及时行乐</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+	
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/dingjialucool"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+	
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">及时行乐</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">除了努力，别无他法</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dingjialucool.github.io/2019/04/18/邮件发送/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DingZiFan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="及时行乐">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">邮件发送</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-18T00:00:00+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java工具类/" itemprop="url" rel="index">
+                    <span itemprop="name">Java工具类</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/04/18/邮件发送/" class="leancloud_visitors" data-flag-title="邮件发送">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="邮件发送"><a href="#邮件发送" class="headerlink" title="邮件发送"></a>邮件发送</h2><p>项目中经常要使用到邮件发送，记录一下，方便下次使用。<a id="more"></a><br>首先导包。maven依赖。</p>
+<pre><code>&lt;dependency&gt;
+            &lt;groupId&gt;io.github.biezhi&lt;/groupId&gt;
+            &lt;artifactId&gt;oh-my-email&lt;/artifactId&gt;
+            &lt;version&gt;0.0.4&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><p>然后就是邮件类。一个类是邮件发送的各种方式，一个类是处理邮件异常类。<br>邮件发送方式类</p>
+<pre><code>package com.chinobot.common.email;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.*;
+import java.io.File;
+import java.net.URL;
+import java.util.*;
+
+public class OhMyEmail {
+
+    private static Session session;
+    private static String  user;
+    private MimeMessage        msg;
+    private String             text;
+    private String             html;
+    private List&lt;MimeBodyPart&gt; attachments = new ArrayList&lt;MimeBodyPart&gt;();
+
+    private OhMyEmail() {
+    }
+
+    public static Properties defaultConfig(Boolean debug) {
+        Properties props = new Properties();
+        props.put(&quot;mail.smtp.auth&quot;, &quot;true&quot;);
+        props.put(&quot;mail.smtp.ssl.enable&quot;, &quot;true&quot;);
+        props.put(&quot;mail.transport.protocol&quot;, &quot;smtp&quot;);
+        props.put(&quot;mail.debug&quot;, null != debug ? debug.toString() : &quot;false&quot;);
+        props.put(&quot;mail.smtp.timeout&quot;, &quot;10000&quot;);
+        props.put(&quot;mail.smtp.port&quot;, &quot;465&quot;);
+        return props;
+    }
+    /**
+     * smtp entnterprise qq
+     *
+     * @param debug
+     * @return
+     */
+    public static Properties SMTP_ENT_QQ(boolean debug) {
+        Properties props = defaultConfig(debug);
+        props.put(&quot;mail.smtp.host&quot;, &quot;smtp.exmail.qq.com&quot;);
+        return props;
+    }
+    /**
+     * smtp qq
+     *
+     * @param debug enable debug
+     * @return
+     */
+    public static Properties SMTP_QQ(boolean debug) {
+        Properties props = defaultConfig(debug);
+        props.put(&quot;mail.smtp.host&quot;, &quot;smtp.qq.com&quot;);
+        return props;
+    }
+    /**
+     * smtp 163
+     *
+     * @param debug enable debug
+     * @return
+     */
+    public static Properties SMTP_163(Boolean debug) {
+        Properties props = defaultConfig(debug);
+        props.put(&quot;mail.smtp.host&quot;, &quot;smtp.163.com&quot;);
+        return props;
+    }
+    /**
+     * config username and password
+     *
+     * @param props    email property config
+     * @param username email auth username
+     * @param password email auth password
+     */
+    public static void config(Properties props, final String username, final String password) {
+        props.setProperty(&quot;username&quot;, username);
+        props.setProperty(&quot;password&quot;, password);
+        config(props);
+    }
+    public static void config(Properties props) {
+        final String username = props.getProperty(&quot;username&quot;);
+        final String password = props.getProperty(&quot;password&quot;);
+        user = username;
+        session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+    }
+    /**
+     * set email subject
+     *
+     * @param subject subject title
+     */
+    public static OhMyEmail subject(String subject) throws SendMailException {
+        OhMyEmail ohMyEmail = new OhMyEmail();
+        ohMyEmail.msg = new MimeMessage(session);
+        try {
+            ohMyEmail.msg.setSubject(subject, &quot;UTF-8&quot;);
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return ohMyEmail;
+    }
+    /**
+     * set email from
+     *
+     * @param nickName from nickname
+     */
+    public OhMyEmail from(String nickName) throws SendMailException {
+        return from(nickName, user);
+    }
+    /**
+     * set email nickname and from user
+     *
+     * @param nickName from nickname
+     * @param from     from email
+     */
+    public OhMyEmail from(String nickName, String from) throws SendMailException {
+        try {
+            String encodeNickName = MimeUtility.encodeText(nickName);
+            msg.setFrom(new InternetAddress(encodeNickName + &quot; &lt;&quot; + from + &quot;&gt;&quot;));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return this;
+    }
+    public OhMyEmail replyTo(String... replyTo) throws SendMailException {
+        String result = Arrays.asList(replyTo).toString().replaceAll(&quot;(^\\[|\\]$)&quot;, &quot;&quot;).replace(&quot;, &quot;, &quot;,&quot;);
+        try {
+            msg.setReplyTo(InternetAddress.parse(result));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return this;
+    }
+    public OhMyEmail replyTo(String replyTo) throws SendMailException {
+        try {
+            msg.setReplyTo(InternetAddress.parse(replyTo.replace(&quot;;&quot;, &quot;,&quot;)));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return this;
+    }
+    public OhMyEmail to(String... to) throws SendMailException {
+        try {
+            return addRecipients(to, Message.RecipientType.TO);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail to(String to) throws SendMailException {
+        try {
+            return addRecipient(to, Message.RecipientType.TO);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail cc(String... cc) throws SendMailException {
+        try {
+            return addRecipients(cc, Message.RecipientType.CC);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail cc(String cc) throws SendMailException {
+        try {
+            return addRecipient(cc, Message.RecipientType.CC);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail bcc(String... bcc) throws SendMailException {
+        try {
+            return addRecipients(bcc, Message.RecipientType.BCC);
+        } catch (MessagingException e) {
+            throw new SendMailException(e);
+        }
+    }
+    public OhMyEmail bcc(String bcc) throws MessagingException {
+        return addRecipient(bcc, Message.RecipientType.BCC);
+    }
+    private OhMyEmail addRecipients(String[] recipients, Message.RecipientType type) throws MessagingException {
+        String result = Arrays.asList(recipients).toString().replace(&quot;(^\\[|\\]$)&quot;, &quot;&quot;).replace(&quot;, &quot;, &quot;,&quot;);
+        msg.setRecipients(type, InternetAddress.parse(result));
+        return this;
+    }
+    private OhMyEmail addRecipient(String recipient, Message.RecipientType type) throws MessagingException {
+        msg.setRecipients(type, InternetAddress.parse(recipient.replace(&quot;;&quot;, &quot;,&quot;)));
+        return this;
+    }
+    public OhMyEmail text(String text) {
+        this.text = text;
+        return this;
+    }
+    public OhMyEmail html(String html) {
+        this.html = html;
+        return this;
+    }
+    public OhMyEmail attach(File file) throws SendMailException {
+        attachments.add(createAttachment(file, null));
+        return this;
+    }
+    public OhMyEmail attach(File file, String fileName) throws SendMailException {
+        attachments.add(createAttachment(file, fileName));
+        return this;
+    }
+    public OhMyEmail attachURL(URL url, String fileName) throws SendMailException {
+        attachments.add(createURLAttachment(url, fileName));
+        return this;
+    }
+    private MimeBodyPart createAttachment(File file, String fileName) throws SendMailException {
+        MimeBodyPart   attachmentPart = new MimeBodyPart();
+        FileDataSource fds            = new FileDataSource(file);
+        try {
+            attachmentPart.setDataHandler(new DataHandler(fds));
+            attachmentPart.setFileName(null == fileName ? MimeUtility.encodeText(fds.getName()) : MimeUtility.encodeText(fileName));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return attachmentPart;
+    }
+    private MimeBodyPart createURLAttachment(URL url, String fileName) throws SendMailException {
+        MimeBodyPart attachmentPart = new MimeBodyPart();
+        DataHandler dataHandler = new DataHandler(url);
+        try {
+            attachmentPart.setDataHandler(dataHandler);
+            attachmentPart.setFileName(null == fileName ? MimeUtility.encodeText(fileName) : MimeUtility.encodeText(fileName));
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+        return attachmentPart;
+    }
+    public void send() throws SendMailException {
+        if (text == null &amp;&amp; html == null) {
+            throw new IllegalArgumentException(&quot;At least one context has to be provided: Text or Html&quot;);
+        }
+        MimeMultipart cover;
+        boolean       usingAlternative = false;
+        boolean       hasAttachments   = attachments.size() &gt; 0;
+        try {
+            if (text != null &amp;&amp; html == null) {
+                // TEXT ONLY
+                cover = new MimeMultipart(&quot;mixed&quot;);
+                cover.addBodyPart(textPart());
+            } else if (text == null &amp;&amp; html != null) {
+                // HTML ONLY
+                cover = new MimeMultipart(&quot;mixed&quot;);
+                cover.addBodyPart(htmlPart());
+            } else {
+                // HTML + TEXT
+                cover = new MimeMultipart(&quot;alternative&quot;);
+                cover.addBodyPart(textPart());
+                cover.addBodyPart(htmlPart());
+                usingAlternative = true;
+            }
+            MimeMultipart content = cover;
+            if (usingAlternative &amp;&amp; hasAttachments) {
+                content = new MimeMultipart(&quot;mixed&quot;);
+                content.addBodyPart(toBodyPart(cover));
+            }
+            for (MimeBodyPart attachment : attachments) {
+                content.addBodyPart(attachment);
+            }
+            msg.setContent(content);
+            msg.setSentDate(new Date());
+            Transport.send(msg);
+        } catch (Exception e) {
+            throw new SendMailException(e);
+        }
+    }
+    private MimeBodyPart toBodyPart(MimeMultipart cover) throws MessagingException {
+        MimeBodyPart wrap = new MimeBodyPart();
+        wrap.setContent(cover);
+        return wrap;
+    }
+    private MimeBodyPart textPart() throws MessagingException {
+        MimeBodyPart bodyPart = new MimeBodyPart();
+        bodyPart.setText(text);
+        return bodyPart;
+    }
+    private MimeBodyPart htmlPart() throws MessagingException {
+        MimeBodyPart bodyPart = new MimeBodyPart();
+        bodyPart.setContent(html, &quot;text/html; charset=utf-8&quot;);
+        return bodyPart;
+    }
+}
+</code></pre><p>邮件处理异常类</p>
+<pre><code>package com.chinobot.common.email;
+public class SendMailException extends Exception {
+
+    public SendMailException() {
+    }
+    public SendMailException(String message) {
+        super(message);
+    }
+    public SendMailException(Throwable cause) {
+        super(cause);
+    }
+}
+</code></pre><p>运行测试类</p>
+<pre><code>/**
+     *     邮件推送
+     * @param email
+     */
+    private boolean emailPush(String email) {
+        // 配置，一次即可
+        OhMyEmail.config(SMTP_QQ(true), emailAccount, emailPassword);
+        try {
+            OhMyEmail.subject(&quot;这是一封测试TEXT邮件&quot;)
+            .from(fromAddress)
+            .to(&quot;2635287867@qq.com&quot;)
+            .text(emailText)
+            .send();
+        } catch (SendMailException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;    
+    }
+</code></pre><p>OhMyEmail为邮件类，emailAccount为QQ邮箱账号，emailPassword为QQ邮箱授权码（<strong>注意</strong>），fromAddress为从哪里发送邮箱，to表示你要发送给谁，emailTest为发送的文本。最后发送成功时可以看到</p>
+<pre><code>DEBUG SMTP: message successfully delivered to mail server
+QUIT
+221 Bye
+
+在做邮件发送时，遇到了一个错误：
+
+535 Error: ????????????????????: http://service.mail.qq.com/cgi-bin/help?subtype=1&amp;&amp;id=28&amp;&amp;no=1001256 
+
+其中一个原因可能是  属性文件.properties中某个属性可能有有空格
+</code></pre><p>完！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java工具类/" rel="tag"><i class="fa fa-tag"></i>Java工具类</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/12/短信发送/" rel="next" title="短信发送">
+                <i class="fa fa-chevron-left"></i> 短信发送
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/25/项目中遇见的小问题/" rel="prev" title="项目中遇见的小问题">
+                项目中遇见的小问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.jpg" alt="DingZiFan">
+            
+              <p class="site-author-name" itemprop="name">DingZiFan</p>
+              <p class="site-description motion-element" itemprop="description">我要变骚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/dingjialucool" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/volcliu" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/2297464654/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/volc" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/solophone" title="庄子" target="_blank">庄子</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#邮件发送"><span class="nav-number">1.</span> <span class="nav-text">邮件发送</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DingZiFan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共11.5k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+	
+	   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+	   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+	   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("3nKCN3RmIPgyIYfS1KyRWeuc-gzGzoHsz", "iHwe76tWN98TzrDgnhXGxQyx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

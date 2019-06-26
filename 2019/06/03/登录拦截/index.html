@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #24292e; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/ic.gif?v=5.1.4">
+
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="登录拦截因为项目中涉及到这个，自己也接触了，所以记录一下。">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="登录拦截">
+<meta property="og:url" content="https://dingjialucool.github.io/2019/06/03/登录拦截/index.html">
+<meta property="og:site_name" content="及时行乐">
+<meta property="og:description" content="登录拦截因为项目中涉及到这个，自己也接触了，所以记录一下。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-06-03T08:06:27.902Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="登录拦截">
+<meta name="twitter:description" content="登录拦截因为项目中涉及到这个，自己也接触了，所以记录一下。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://dingjialucool.github.io/2019/06/03/登录拦截/">
+
+
+
+
+
+  <title>登录拦截 | 及时行乐</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+	
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	<a href="https://github.com/dingjialucool"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+	
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">及时行乐</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">除了努力，别无他法</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-message">
+          <a href="/message" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br>
+            
+            留言
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://dingjialucool.github.io/2019/06/03/登录拦截/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DingZiFan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="及时行乐">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">登录拦截</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-03T00:00:00+08:00">
+                2019-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java后台/" itemprop="url" rel="index">
+                    <span itemprop="name">Java后台</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/06/03/登录拦截/" class="leancloud_visitors" data-flag-title="登录拦截">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.5k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  7
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="登录拦截"><a href="#登录拦截" class="headerlink" title="登录拦截"></a>登录拦截</h2><p>因为项目中涉及到这个，自己也接触了，所以记录一下。<a id="more"></a></p>
+<p>认证过程<br>登录：<br>1.第一次认证：第一次登录，用户从浏览器输入用户名/密码，提交到服务器的登录处理的Controller层。</p>
+<pre><code>QueryWrapper&lt;Person&gt; queryWrapper = new QueryWrapper();
+        queryWrapper.eq(&quot;data_status&quot;, GlobalConstant.DATA_STATUS_VALID);       queryWrapper.eq(&quot;phone&quot;,param.get(&quot;username&quot;)).eq(&quot;password&quot;,MD5Util.getMD5(param.get(&quot;password&quot;).toString())).or(i -&gt;i.eq(&quot;email&quot;,param.get(&quot;username&quot;)).eq(&quot;password&quot;,MD5Util.getMD5(param.get(&quot;password&quot;).toString())).eq(&quot;data_status&quot;, GlobalConstant.DATA_STATUS_VALID));
+        Person one = personService.getOne(queryWrapper);
+</code></pre><p>2.Controller调用认证服务进行用户名密码认证，如果认证通过，Controller层调用用户信息服务获取用户信息；</p>
+<pre><code>System.out.println(&quot;登录成功！&quot;);
+    String id = one.getUuid();//id 当前用户ID
+</code></pre><p>3.返回用户信息后，Controller从配置文件中获取Token签名生成的秘钥信息，进行Token的生成；</p>
+<pre><code>//issuer 该JWT的签发者，是否使用是可选的
+          String issuer = &quot;&quot;;
+          //subject 该JWT所面向的用户，是否使用是可选的
+          String subject = &quot;&quot;;
+          //ttlMillis 什么时候过期，这里是一个Unix时间戳，是否使用是可选的
+          long ttlMillis = 1000 * 60 * 30; 
+          //audience 接收该JWT的一方，是否使用是可选的
+          String audience = &quot;&quot;;
+          String token = TokenUtil.createJWT(id,issuer,subject,ttlMillis,audience);
+        public static String createJWT(String id,String issuer,String subject,long ttlMillis, String audience){
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(APP_KEY);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        JwtBuilder jwtBuilder = Jwts.builder()
+                .setId(id)
+                .setSubject(subject)
+                .setIssuedAt(now)
+                .setIssuer(issuer)
+                .setAudience(audience)
+                .signWith(signatureAlgorithm,signingKey);
+    //设置Token的过期时间
+        if(ttlMillis &gt;0){  
+            long expMillis = nowMillis + ttlMillis;
+            Date exp = new Date(expMillis);
+            jwtBuilder.setExpiration(exp);
+        }
+        return jwtBuilder.compact();
+    }
+</code></pre><p>4.生成Token的过程中可以调用第三方的JWT Lib生成签名后的JWT数据；</p>
+<pre><code>String token = TokenUtil.createJWT(id,issuer,subject,ttlMillis,audience);
+</code></pre><p>5.完成JWT数据签名后，将其设置到COOKIE对象中，并重定向到首页，完成登录过程；</p>
+<pre><code>HashMap&lt;String,String&gt; result = new HashMap&lt;&gt;();
+     result.put(&quot;userId&quot;, id);
+     result.put(&quot;token&quot;, token);    
+     return ResultFactory.success(result);
+</code></pre><p>请求认证：<br>基于Token的认证机制会在每一次请求中都带上完成签名的Token信息，这个Token信息可能在COOKIE中，也可能在HTTP的Authorization头中；</p>
+<ul>
+<li>客户端（APP客户端或浏览器）通过GET或POST请求访问资源（页面或调用API）；</li>
+<li>认证服务作为一个Middleware HOOK 对请求进行拦截，首先在cookie中查找Token信息，如果没有找到，则在HTTP Authorization Head中查找；</li>
+<li>如果找到Token信息，则根据配置文件中的签名加密秘钥，调用JWT Lib对Token信息进行解密和解码；</li>
+<li>完成解码并验证签名通过后，对Token中的exp、nbf、aud等信息进行验证；</li>
+<li>全部通过后，根据获取的用户的角色权限信息，进行对请求的资源的权限逻辑判断；</li>
+<li>如果权限逻辑判断通过则通过Response对象返回；否则则返回HTTP 401；</li>
+</ul>
+<p>相关类：<br>登录Controller类</p>
+<pre><code>@RequestMapping(&quot;/login&quot;)
+    public Result login(@RequestBody Map&lt;String, Object&gt; param) {
+    QueryWrapper&lt;Person&gt; queryWrapper = new QueryWrapper();
+    queryWrapper.eq(&quot;data_status&quot;, GlobalConstant.DATA_STATUS_VALID);
+    queryWrapper.eq(&quot;phone&quot;,param.get(&quot;username&quot;)).eq(&quot;password&quot;,MD5Util.getMD5(param.get(&quot;password&quot;).toString())).or(i -&gt;i.eq(&quot;email&quot;,param.get(&quot;username&quot;)).eq(&quot;password&quot;,MD5Util.getMD5(param.get(&quot;password&quot;).toString())).eq(&quot;data_status&quot;, GlobalConstant.DATA_STATUS_VALID));
+        Person one = personService.getOne(queryWrapper);
+        if(one !=null) {
+            System.out.println(&quot;登录成功！&quot;);
+            //id 当前用户ID
+            String id = one.getUuid();
+            //issuer 该JWT的签发者，是否使用是可选的
+            String issuer = &quot;&quot;;
+            //subject 该JWT所面向的用户，是否使用是可选的
+            String subject = &quot;&quot;;
+            //ttlMillis 什么时候过期，这里是一个Unix时间戳，是否使用是可选的
+            long ttlMillis = 1000 * 60 * 30; 
+            //audience 接收该JWT的一方，是否使用是可选的
+            String audience = &quot;&quot;;
+            String token = TokenUtil.createJWT(id,issuer,subject,ttlMillis,audience);
+            HashMap&lt;String,String&gt; result = new HashMap&lt;&gt;();
+            result.put(&quot;userId&quot;, id);
+            result.put(&quot;token&quot;, token);      
+            return ResultFactory.success(result);
+        }
+        System.out.println(&quot;登录失败！&quot;);
+        return ResultFactory.fail(null);
+    }
+</code></pre><p>TokenInterceptor拦截器：</p>
+<pre><code>@Component
+public class TokenInterceptor implements HandlerInterceptor{
+     @Override
+        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+                throws Exception {
+         //获取token
+            String tokenEnmu= request.getHeader(&quot;authorization&quot;);     
+            if(!CommonUtils.isEmpty(tokenEnmu)) {
+                try {
+                    Claims claims = TokenUtil.getClaims(tokenEnmu);
+                    String personId = claims.getId();
+                    Date dateExpiration = claims.getExpiration();
+                    if(!CommonUtils.isObjEmpty(dateExpiration)) {
+                        Person person = new Person();
+                        person.setUuid(personId);
+                        //threadlocal保存用户id，用来更新操作记录
+                        ThreadLocalUtil.setResources(person);
+                        //更新时间戳，用来生成token
+                        long ttlMillis = 1000 * 60 * 30;
+                        String newtoken = TokenUtil.createJWT(personId,claims.getIssuer(),claims.getSubject(),ttlMillis,claims.getAudience());
+                        //将token设置到浏览器
+                        response.setHeader(&quot;authorization&quot;, newtoken);
+                    }else {
+                        response.setStatus(401);
+                    }
+                } catch (Exception e) {
+                    response.setStatus(401);
+                }    
+            }else {
+                response.setStatus(401);
+            }
+            //返回 false 则请求中断
+            return true;
+        }
+        @Override
+        public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+                ModelAndView modelAndView) throws Exception {
+//            log.info(&quot;postHandle:请求后调用&quot;);
+//            获取塞入的用户id
+//            Person personInfo =  ThreadLocalUtil.getResources();
+//            System.out.println(&quot;用户id：&quot;+personInfo.getUuid()+&quot;-----------&quot;);
+        }
+        @Override
+        public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+                throws Exception {
+//            log.info(&quot;afterCompletion:请求调用完成后回调方法，即在视图渲染完成后回调&quot;);
+        }    
+}
+</code></pre><p>自定义拦截器：</p>
+<pre><code>@Configuration
+public class TokenConfig extends WebMvcConfigurationSupport{    
+    @Autowired
+    private TokenInterceptor tokenInterceptor;
+    @Override
+    protected void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(tokenInterceptor).addPathPatterns(&quot;/**&quot;).excludePathPattern        s(&quot;/api/login&quot;, &quot;/api/file/upload&quot;,&quot;/api/file/ioimage&quot;, &quot;/api/kafka/send/*&quot;,                 &quot;/api/basedata&quot;, &quot;/api/report/**&quot;);
+    //    super.addInterceptors(registry);
+    }
+}
+</code></pre><p>TokenUtil工具类：</p>
+<pre><code>public class TokenUtil {
+    private static final String APP_KEY = &quot;user_key&quot;; //进行数字签名的私钥
+    /**
+     * 一个JWT实际上就是一个字符串，它由三部分组成，头部(Header)、载荷(Payload)与签名(Signature)
+     * @param id 当前用户ID
+     * @param issuer 该JWT的签发者，是否使用是可选的
+     * @param subject 该JWT所面向的用户，是否使用是可选的
+     * @param ttlMillis 什么时候过期，这里是一个Unix时间戳，是否使用是可选的
+     * @param audience 接收该JWT的一方，是否使用是可选的
+     * @return
+     */
+    public static String createJWT(String id,String issuer,String subject,long ttlMillis, String audience){
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(APP_KEY);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        JwtBuilder jwtBuilder = Jwts.builder()
+                .setId(id)
+                .setSubject(subject)
+                .setIssuedAt(now)
+                .setIssuer(issuer)
+                .setAudience(audience)
+                .signWith(signatureAlgorithm,signingKey);
+    //设置Token的过期时间
+        if(ttlMillis &gt;0){  
+            long expMillis = nowMillis + ttlMillis;
+            Date exp = new Date(expMillis);
+            jwtBuilder.setExpiration(exp);
+        }
+        return jwtBuilder.compact();
+    } 
+    //私钥解密token信息
+    public static Claims getClaims(String jwt) {
+        return Jwts.parser()
+                .setSigningKey(DatatypeConverter.parseBase64Binary(APP_KEY))
+                .parseClaimsJws(jwt).getBody();
+    }
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"><i class="fa fa-tag"></i>Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/03/码值表/" rel="next" title="码值表">
+                <i class="fa fa-chevron-left"></i> 码值表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/head.jpg" alt="DingZiFan">
+            
+              <p class="site-author-name" itemprop="name">DingZiFan</p>
+              <p class="site-description motion-element" itemprop="description">我要变骚</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/dingjialucool" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/volcliu" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://weibo.com/2297464654/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="微博">
+                      
+                        <i class="fa fa-fw fa-globe"></i>微博</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.zhihu.com/people/volc" target="_blank" title="知乎">
+                      
+                        <i class="fa fa-fw fa-globe"></i>知乎</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://github.com/solophone" title="庄子" target="_blank">庄子</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#登录拦截"><span class="nav-number">1.</span> <span class="nav-text">登录拦截</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DingZiFan</span>
+
+  
+</div>
+
+
+
+
+
+
+
+<div class="powered-by">
+<i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv">
+  本站访客数:<span id="busuanzi_value_site_uv"></span>
+</span>
+</div>
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共11.5k字</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>访问总量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+	
+	   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+	   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+	   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+	
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("3nKCN3RmIPgyIYfS1KyRWeuc-gzGzoHsz", "iHwe76tWN98TzrDgnhXGxQyx");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
