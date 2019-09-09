@@ -108,7 +108,7 @@
       <link href="/2019/05/27/SpringBoot%E5%88%86%E9%A1%B5/"/>
       <url>/2019/05/27/SpringBoot%E5%88%86%E9%A1%B5/</url>
       
-        <content type="html"><![CDATA[<h2 id="SpringBoot分页"><a href="#SpringBoot分页" class="headerlink" title="SpringBoot分页"></a>SpringBoot分页</h2><p>记一下，怕忘记！<a id="more"></a><br>Springboot自带了一个分页，使得分页问题变得简单了。<br>前端只需要传入两个参数到后台：<br>一个是size(后台：每页显示条数，默认 10)<br>一个是curr（后台：当前页，默认1）<br>当前台传入这两个参数时，会自动映射到SpringBoot自带的一个Page实体类中，然后将返回值的类型改为IPage&lt;&gt;即可。<br>实例代码：<br>Controller类：</p><pre><code>@RequestMapping(&quot;/task/page&quot;)    public Result getTaskPage(Page page, @RequestParam Map&lt;String, String&gt; param) {        return ResultFactory.success(sceneTaskService.getTaskPage(page, param));    }</code></pre><p>Service类：</p><pre><code>@Override    public IPage&lt;Map&gt; getTaskPage(Page page, Map&lt;String, String&gt; param) {        param.put(&quot;dataStatus&quot;, GlobalConstant.DATA_STATUS_VALID);        return sceneTaskMapper.getTask(page, param);    }</code></pre><p>Mapper类：</p><pre><code>IPage&lt;Map&gt; getTask(Page page, @Param(&quot;p&quot;)Map&lt;String, String&gt; param);</code></pre><p>这样就可以实现后台分页了！</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="SpringBoot分页"><a href="#SpringBoot分页" class="headerlink" title="SpringBoot分页"></a>SpringBoot分页</h2><p>记一下，怕忘记！<a id="more"></a><br>Springboot自带了一个分页，使得分页问题变得简单了。<br>前端只需要传入两个参数到后台：<br>一个是size(后台：每页显示条数，默认 10)<br>一个是curr（后台：当前页，默认1）<br>当前台传入这两个参数时，会自动映射到SpringBoot自带的一个Page实体类中，然后将返回值的类型改为IPage&lt;&gt;即可。<br>实例代码：<br>Controller类：</p><pre><code>@RequestMapping(&quot;/task/page&quot;)    public Result getTaskPage(Page page, @RequestParam Map&lt;String, String&gt; param) {        return ResultFactory.success(sceneTaskService.getTaskPage(page, param));    }</code></pre><p>Service类：</p><pre><code>@Override    public IPage&lt;Map&gt; getTaskPage(Page page, Map&lt;String, String&gt; param) {        param.put(&quot;dataStatus&quot;, GlobalConstant.DATA_STATUS_VALID);        return sceneTaskMapper.getTask(page, param);    }</code></pre><p>Mapper类：</p><pre><code>IPage&lt;Map&gt; getTask(Page page, @Param(&quot;p&quot;)Map&lt;String, String&gt; param);</code></pre><p>这样就可以实现后台分页了！</p><p>说说在玩分页时遇到的一些问题：<br>1.有一次玩分页，前台传参正常，后台接收也没问题，但就是不能分页，找问题找了好长时间也没找到，<br>最后才发现是没有配置Springboot分页插件导致的！得注意。</p><p>2.有一次玩分页，前台传参正常，我是用@RequestBody注解接收前台传过来变量的，post请求的，发现分页一直没用，<br>后来改成了@RequestParam注解接收前台传过来的变量，用get请求，发现就可以了。不过至今我也没查找到是什么原因。。。</p>]]></content>
       
       
       <categories>
@@ -208,7 +208,7 @@
       <link href="/2019/05/22/%E5%89%8D%E7%AB%AF%E9%81%8D%E5%8E%86/"/>
       <url>/2019/05/22/%E5%89%8D%E7%AB%AF%E9%81%8D%E5%8E%86/</url>
       
-        <content type="html"><![CDATA[<h2 id="前端遍历"><a href="#前端遍历" class="headerlink" title="前端遍历"></a>前端遍历</h2><p>好记性不如烂笔头！<a id="more"></a><br>需求：将一个数据格式为： arr[key:value,key:value]的遍历，做一些处理，然后在添加进数组。</p><ol><li><p>let obj = HeyUI.getDict(‘sceneType’);  //数组   </p><pre><code>for(let i in obj){ var str={    key:i,  // key    title:obj[i]  //value    }  this.dicts.type.push(str);</code></pre></li><li><p>Object.keys(obj).forEach((key) =&gt; {<br>HeyUI.addDict(key, obj[key]);<br>});</p></li></ol>]]></content>
+        <content type="html"><![CDATA[<h2 id="前端遍历"><a href="#前端遍历" class="headerlink" title="前端遍历"></a>前端遍历</h2><p>好记性不如烂笔头！<a id="more"></a><br>需求：将一个数据格式为： arr[key:value,key:value]的遍历，做一些处理，然后在添加进数组。</p><ol><li><p>let obj = HeyUI.getDict(‘sceneType’);  //数组对象   </p><pre><code>for(let i in obj){ var str={    key:i,  // key    title:obj[i]  //value    }  this.dicts.type.push(str);</code></pre></li><li><p>Object.keys(obj).forEach((key) =&gt; {<br>HeyUI.addDict(key, obj[key]);<br>});</p><p>3.Es6语法遍历<br>let nums = [1,2,3,5,10];<br>let fives = [];<br>nums.forEach(v =&gt; {<br>if (v % 5 === 0)<br>fives.push(v);<br>});<br>console.log(fives); //[5,10]</p><p>4.map方式遍历<br>let pline2 = data[a].addressBase.polyline.split(‘;’);<br>let path2 = pline2.map(v =&gt; {<br>  return [v.split(‘,’)[0], v.split(‘,’)[1]];<br>});</p><p>5.map es6语法<br>let myMap = new Map();<br>myMap.set(0, “zero”);<br>myMap.set(1, “one”);<br>myMap.set(2, “two”);</p><p>// 遍历 key 和 value<br>for (let [key, value] of myMap) {<br>console.log(key + “ = “ + value);<br>}<br>for (let [key, value] of myMap.entries()) {<br>console.log(key + “ = “ + value);<br>}</p><p>// 只遍历 key<br>for (let key of myMap.keys()) {<br>console.log(key);<br>}</p><p>// 只遍历 value<br>for (let value of myMap.values()) {<br>console.log(value);<br>}  </p></li></ol>]]></content>
       
       
       <categories>
@@ -329,31 +329,6 @@
     
     
     <entry>
-      <title>Mybatis中Mapper相关问题</title>
-      <link href="/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/"/>
-      <url>/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/</url>
-      
-        <content type="html"><![CDATA[<h2 id="Mybatis中Mapper-xml的SQL"><a href="#Mybatis中Mapper-xml的SQL" class="headerlink" title="Mybatis中Mapper.xml的SQL"></a>Mybatis中Mapper.xml的SQL</h2><p>在工作中，我们可能常常会碰见这样一个需求，根据不同的表单数据更新到不同的数据表中。点进来瞧瞧你有没有遇到这样的需求！<a id="more"></a><br>        比如有三个表单：楼栋任务的表单，房屋任务的表单，设施任务的表单<br>        现在要根据对不同表单的修改，然后将修改完的表单数据插入到相对应的数据表中，或许有人会说，根据串过来的参数，判断需要插入那张表不就行了，确实这种方法可以，但稍显笨重，有没有更好的方法么，有的，一起来看看吧。</p><pre><code> &lt;update id=&quot;updateTable&quot; parameterType=&quot;map&quot; statementType=&quot;STATEMENT&quot;&gt;                update ${tableName} set  ${field}=${value} where uuid=${uuid};    &lt;/update&gt;我们可以看到，表名是动态的，字段是动态的，值也是动态的，一条SQL就解决了这个需求，很简洁。这里的关键就是需要加一个  **statementType=&quot;STATEMENT&quot;**，这样它才能是动态的，千万记得。</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> SSM框架问题 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SSM </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Mybatis中动态SQL</title>
       <link href="/2019/03/12/Mybatis%E4%B8%AD%E5%8A%A8%E6%80%81SQL/"/>
       <url>/2019/03/12/Mybatis%E4%B8%AD%E5%8A%A8%E6%80%81SQL/</url>
@@ -371,6 +346,31 @@
         <tags>
             
             <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mybatis中Mapper相关问题</title>
+      <link href="/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/"/>
+      <url>/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Mybatis中Mapper-xml的SQL"><a href="#Mybatis中Mapper-xml的SQL" class="headerlink" title="Mybatis中Mapper.xml的SQL"></a>Mybatis中Mapper.xml的SQL</h2><p>在工作中，我们可能常常会碰见这样一个需求，根据不同的表单数据更新到不同的数据表中。点进来瞧瞧你有没有遇到这样的需求！<a id="more"></a><br>        比如有三个表单：楼栋任务的表单，房屋任务的表单，设施任务的表单<br>        现在要根据对不同表单的修改，然后将修改完的表单数据插入到相对应的数据表中，或许有人会说，根据串过来的参数，判断需要插入那张表不就行了，确实这种方法可以，但稍显笨重，有没有更好的方法么，有的，一起来看看吧。</p><pre><code> &lt;update id=&quot;updateTable&quot; parameterType=&quot;map&quot; statementType=&quot;STATEMENT&quot;&gt;                update ${tableName} set  ${field}=${value} where uuid=${uuid};    &lt;/update&gt;我们可以看到，表名是动态的，字段是动态的，值也是动态的，一条SQL就解决了这个需求，很简洁。这里的关键就是需要加一个  **statementType=&quot;STATEMENT&quot;**，这样它才能是动态的，千万记得。</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> SSM框架问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SSM </tag>
             
         </tags>
       

@@ -100,7 +100,7 @@
 <meta property="og:site_name" content="及时行乐">
 <meta property="og:description" content="SpringBoot分页记一下，怕忘记！">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-27T12:04:50.551Z">
+<meta property="og:updated_time" content="2019-06-26T09:39:40.804Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SpringBoot分页">
 <meta name="twitter:description" content="SpringBoot分页记一下，怕忘记！">
@@ -381,7 +381,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  202
+                  362
                 </span>
               
 
@@ -432,6 +432,8 @@
 </code></pre><p>Mapper类：</p>
 <pre><code>IPage&lt;Map&gt; getTask(Page page, @Param(&quot;p&quot;)Map&lt;String, String&gt; param);
 </code></pre><p>这样就可以实现后台分页了！</p>
+<p>说说在玩分页时遇到的一些问题：<br>1.有一次玩分页，前台传参正常，后台接收也没问题，但就是不能分页，找问题找了好长时间也没找到，<br>最后才发现是没有配置Springboot分页插件导致的！得注意。</p>
+<p>2.有一次玩分页，前台传参正常，我是用@RequestBody注解接收前台传过来变量的，post请求的，发现分页一直没用，<br>后来改成了@RequestParam注解接收前台传过来的变量，用get请求，发现就可以了。不过至今我也没查找到是什么原因。。。</p>
 
       
     </div>
@@ -698,7 +700,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共11.5k字</span>
+  <span class="post-count">博客全站共11.8k字</span>
 </div>
 
         
