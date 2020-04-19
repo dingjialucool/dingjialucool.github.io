@@ -8,7 +8,32 @@
       <link href="/2020/04/19/%E6%8B%A6%E6%88%AA%E5%99%A8-%E5%B0%86%E6%89%80%E6%9C%89%E4%B8%BAnull%E5%B1%9E%E6%80%A7%E8%BD%AC%E4%B8%BA&#39;&#39;/"/>
       <url>/2020/04/19/%E6%8B%A6%E6%88%AA%E5%99%A8-%E5%B0%86%E6%89%80%E6%9C%89%E4%B8%BAnull%E5%B1%9E%E6%80%A7%E8%BD%AC%E4%B8%BA&#39;&#39;/</url>
       
-        <content type="html"><![CDATA[<h2 id="查询部门及所有子部门"><a href="#查询部门及所有子部门" class="headerlink" title="查询部门及所有子部门"></a>查询部门及所有子部门</h2><p>最近项目出现了这个需求，记录一下。<a id="more"></a></p><p>1.需求：返回前端的数据中，很多没有值的属性都为null，而前端所需要的是没有值就返回空字符<br>2.实现方式：</p><ul><li><p>在拦截器中加上如下代码<br>  @Configuration<br>public class WebConfig extends WebMvcConfigurationSupport{</p><p> @Autowired<br> private TokenInterceptor tokenInterceptor;</p><p> /**</p><ul><li><p>自定义拦截器<br>*/<br>@Override<br>protected void addInterceptors(InterceptorRegistry registry) {<br> registry.addInterceptor(tokenInterceptor).addPathPatterns(“/**”)</p><pre><code>.excludePathPatterns(&quot;/api/login&quot;,&quot;/api/setting&quot;, &quot;/api/info/info/kmlUpload&quot;,&quot;/api/file/upload&quot;,&quot;/api/file/ioimage&quot;,&quot;/api/kafka/send/**&quot;, &quot;/api/basedata&quot;,&quot;/error&quot;, &quot;/swagger-resources&quot;,         &quot;/api/bot/resource/live-broadcast/getSendUrl&quot;,&quot;/api/bot/resource/live-broadcast/getPlayUrl&quot;, &quot;/*.html&quot; ,&quot;/webjars/**&quot;,&quot;/api/warning/event-info/**&quot;,&quot;/api/bot/warning/warning/**&quot;,&quot;/api/info/info/**&quot;);</code></pre><p> super.addInterceptors(registry);<br>}</p><p>@Override<br>public void addResourceHandlers(ResourceHandlerRegistry registry) {<br> registry.addResourceHandler(“/**”).addResourceLocations(“classpath:/static/“);<br> registry.addResourceHandler(“doc.html”)</p><pre><code>.addResourceLocations(&quot;classpath:/META-INF/resources/&quot;);</code></pre><p> registry.addResourceHandler(“/webjars/**”)</p><pre><code>.addResourceLocations(&quot;classpath:/META-INF/resources/webjars/&quot;);</code></pre><p> super.addResourceHandlers(registry);<br>}</p><p>@Override<br>public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {<br> FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();<br> FastJsonConfig fastJsonConfig = new FastJsonConfig();<br> fastJsonConfig.setSerializerFeatures(</p><pre><code>//List字段如果为null,输出为[],而非nullSerializerFeature.WriteNullListAsEmpty,//是否输出值为null的字段,默认为falseSerializerFeature.WriteMapNullValue,//字符串null返回空字符串SerializerFeature.WriteNullStringAsEmpty,//空布尔值返回falseSerializerFeature.WriteNullBooleanAsFalse,//结果是否格式化,默认为falseSerializerFeature.PrettyFormat,//数值字段如果为null,输出为0,而非nullSerializerFeature.WriteNullNumberAsZero);</code></pre><p> //格式化日期<br>//        fastJsonConfig.setDateFormat(“YYYY-MM-dd HH:mm:ss”);<br> converter.setFastJsonConfig(fastJsonConfig);<br> converters.add(converter);<br>}</p></li></ul></li></ul>]]></content>
+        <content type="html"><![CDATA[<h2 id="拦截器-将所有为null属性转为’’"><a href="#拦截器-将所有为null属性转为’’" class="headerlink" title="拦截器-将所有为null属性转为’’"></a>拦截器-将所有为null属性转为’’</h2><p>最近项目出现了这个需求，记录一下。<a id="more"></a></p><p>1.需求：返回前端的数据中，很多没有值的属性都为null，而前端所需要的是没有值就返回空字符<br>2.实现方式：</p><ul><li><p>在拦截器中加上如下代码<br>  @Configuration<br>public class WebConfig extends WebMvcConfigurationSupport{</p><p> @Autowired<br> private TokenInterceptor tokenInterceptor;</p><p> /**</p><ul><li><p>自定义拦截器<br>*/<br>@Override<br>protected void addInterceptors(InterceptorRegistry registry) {<br> registry.addInterceptor(tokenInterceptor).addPathPatterns(“/**”)</p><pre><code>.excludePathPatterns(&quot;/api/login&quot;,&quot;/api/setting&quot;, &quot;/api/info/info/kmlUpload&quot;,&quot;/api/file/upload&quot;,&quot;/api/file/ioimage&quot;,&quot;/api/kafka/send/**&quot;, &quot;/api/basedata&quot;,&quot;/error&quot;, &quot;/swagger-resources&quot;,         &quot;/api/bot/resource/live-broadcast/getSendUrl&quot;,&quot;/api/bot/resource/live-broadcast/getPlayUrl&quot;, &quot;/*.html&quot; ,&quot;/webjars/**&quot;,&quot;/api/warning/event-info/**&quot;,&quot;/api/bot/warning/warning/**&quot;,&quot;/api/info/info/**&quot;);</code></pre><p> super.addInterceptors(registry);<br>}</p><p>@Override<br>public void addResourceHandlers(ResourceHandlerRegistry registry) {<br> registry.addResourceHandler(“/**”).addResourceLocations(“classpath:/static/“);<br> registry.addResourceHandler(“doc.html”)</p><pre><code>.addResourceLocations(&quot;classpath:/META-INF/resources/&quot;);</code></pre><p> registry.addResourceHandler(“/webjars/**”)</p><pre><code>.addResourceLocations(&quot;classpath:/META-INF/resources/webjars/&quot;);</code></pre><p> super.addResourceHandlers(registry);<br>}</p><p>@Override<br>public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {<br> FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();<br> FastJsonConfig fastJsonConfig = new FastJsonConfig();<br> fastJsonConfig.setSerializerFeatures(</p><pre><code>//List字段如果为null,输出为[],而非nullSerializerFeature.WriteNullListAsEmpty,//是否输出值为null的字段,默认为falseSerializerFeature.WriteMapNullValue,//字符串null返回空字符串SerializerFeature.WriteNullStringAsEmpty,//空布尔值返回falseSerializerFeature.WriteNullBooleanAsFalse,//结果是否格式化,默认为falseSerializerFeature.PrettyFormat,//数值字段如果为null,输出为0,而非nullSerializerFeature.WriteNullNumberAsZero);</code></pre><p> //格式化日期<br>//        fastJsonConfig.setDateFormat(“YYYY-MM-dd HH:mm:ss”);<br> converter.setFastJsonConfig(fastJsonConfig);<br> converters.add(converter);<br>}</p></li></ul></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> Java后台 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>解决Springboot项目中单元测试时注入bean失败的问题</title>
+      <link href="/2020/04/19/%E8%A7%A3%E5%86%B3Springboot%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%97%B6%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+      <url>/2020/04/19/%E8%A7%A3%E5%86%B3Springboot%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E6%97%B6%E6%B3%A8%E5%85%A5bean%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+      
+        <content type="html"><![CDATA[<h2 id="解决Springboot项目中单元测试时注入bean失败的问题"><a href="#解决Springboot项目中单元测试时注入bean失败的问题" class="headerlink" title="解决Springboot项目中单元测试时注入bean失败的问题"></a>解决Springboot项目中单元测试时注入bean失败的问题</h2><p>最近项目出现了这个问题，记录一下。<a id="more"></a></p><p>1.问题：在进行单元测试的时候，出现了一个错误，bean注入失败了<br>2.解决问题：</p><ul><li>网上百度了很多，终于找到了解决方法。<br>这个方法的前提是  1.测试类包名和启动类包名一致 2.不存在版本原因导致的错误</li></ul><p>package com.chinobot;</p><p>import org.junit.runner.RunWith;<br>import org.springframework.boot.test.context.SpringBootTest;<br>import org.springframework.test.context.junit4.SpringRunner;</p><p>@RunWith(SpringRunner.class)<br>@SpringBootTest(classes = Application.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)<br>public abstract class BaseTest {</p><p>}</p><p>最主要的是在@SpringBootTest 注释中加了 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT ，加了这个注解bean注入成功。<br>最后写了一个抽象类，以后直接继承这个基类就方便多了。</p>]]></content>
       
       
       <categories>
@@ -129,31 +154,6 @@
     
     
     <entry>
-      <title>SpringBoot分页</title>
-      <link href="/2019/05/27/SpringBoot%E5%88%86%E9%A1%B5/"/>
-      <url>/2019/05/27/SpringBoot%E5%88%86%E9%A1%B5/</url>
-      
-        <content type="html"><![CDATA[<h2 id="SpringBoot分页"><a href="#SpringBoot分页" class="headerlink" title="SpringBoot分页"></a>SpringBoot分页</h2><p>记一下，怕忘记！<a id="more"></a><br>Springboot自带了一个分页，使得分页问题变得简单了。<br>前端只需要传入两个参数到后台：<br>一个是size(后台：每页显示条数，默认 10)<br>一个是curr（后台：当前页，默认1）<br>当前台传入这两个参数时，会自动映射到SpringBoot自带的一个Page实体类中，然后将返回值的类型改为IPage&lt;&gt;即可。<br>实例代码：<br>Controller类：</p><pre><code>@RequestMapping(&quot;/task/page&quot;)    public Result getTaskPage(Page page, @RequestParam Map&lt;String, String&gt; param) {        return ResultFactory.success(sceneTaskService.getTaskPage(page, param));    }</code></pre><p>Service类：</p><pre><code>@Override    public IPage&lt;Map&gt; getTaskPage(Page page, Map&lt;String, String&gt; param) {        param.put(&quot;dataStatus&quot;, GlobalConstant.DATA_STATUS_VALID);        return sceneTaskMapper.getTask(page, param);    }</code></pre><p>Mapper类：</p><pre><code>IPage&lt;Map&gt; getTask(Page page, @Param(&quot;p&quot;)Map&lt;String, String&gt; param);</code></pre><p>这样就可以实现后台分页了！</p><p>说说在玩分页时遇到的一些问题：<br>1.有一次玩分页，前台传参正常，后台接收也没问题，但就是不能分页，找问题找了好长时间也没找到，<br>最后才发现是没有配置Springboot分页插件导致的！得注意。</p><p>2.有一次玩分页，前台传参正常，我是用@RequestBody注解接收前台传过来变量的，post请求的，发现分页一直没用，<br>后来改成了@RequestParam注解接收前台传过来的变量，用get请求，发现就可以了。不过至今我也没查找到是什么原因。。。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> Springboot </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Springboot </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>CSS 属性赋值的正确写法</title>
       <link href="/2019/05/27/CSS%20%E5%B1%9E%E6%80%A7%E8%B5%8B%E5%80%BC%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%86%99%E6%B3%95/"/>
       <url>/2019/05/27/CSS%20%E5%B1%9E%E6%80%A7%E8%B5%8B%E5%80%BC%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%86%99%E6%B3%95/</url>
@@ -171,6 +171,31 @@
         <tags>
             
             <tag> 前端 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>SpringBoot分页</title>
+      <link href="/2019/05/27/SpringBoot%E5%88%86%E9%A1%B5/"/>
+      <url>/2019/05/27/SpringBoot%E5%88%86%E9%A1%B5/</url>
+      
+        <content type="html"><![CDATA[<h2 id="SpringBoot分页"><a href="#SpringBoot分页" class="headerlink" title="SpringBoot分页"></a>SpringBoot分页</h2><p>记一下，怕忘记！<a id="more"></a><br>Springboot自带了一个分页，使得分页问题变得简单了。<br>前端只需要传入两个参数到后台：<br>一个是size(后台：每页显示条数，默认 10)<br>一个是curr（后台：当前页，默认1）<br>当前台传入这两个参数时，会自动映射到SpringBoot自带的一个Page实体类中，然后将返回值的类型改为IPage&lt;&gt;即可。<br>实例代码：<br>Controller类：</p><pre><code>@RequestMapping(&quot;/task/page&quot;)    public Result getTaskPage(Page page, @RequestParam Map&lt;String, String&gt; param) {        return ResultFactory.success(sceneTaskService.getTaskPage(page, param));    }</code></pre><p>Service类：</p><pre><code>@Override    public IPage&lt;Map&gt; getTaskPage(Page page, Map&lt;String, String&gt; param) {        param.put(&quot;dataStatus&quot;, GlobalConstant.DATA_STATUS_VALID);        return sceneTaskMapper.getTask(page, param);    }</code></pre><p>Mapper类：</p><pre><code>IPage&lt;Map&gt; getTask(Page page, @Param(&quot;p&quot;)Map&lt;String, String&gt; param);</code></pre><p>这样就可以实现后台分页了！</p><p>说说在玩分页时遇到的一些问题：<br>1.有一次玩分页，前台传参正常，后台接收也没问题，但就是不能分页，找问题找了好长时间也没找到，<br>最后才发现是没有配置Springboot分页插件导致的！得注意。</p><p>2.有一次玩分页，前台传参正常，我是用@RequestBody注解接收前台传过来变量的，post请求的，发现分页一直没用，<br>后来改成了@RequestParam注解接收前台传过来的变量，用get请求，发现就可以了。不过至今我也没查找到是什么原因。。。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Springboot </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Springboot </tag>
             
         </tags>
       
@@ -379,31 +404,6 @@
     
     
     <entry>
-      <title>Mybatis中Mapper相关问题</title>
-      <link href="/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/"/>
-      <url>/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/</url>
-      
-        <content type="html"><![CDATA[<h2 id="Mybatis中Mapper-xml的SQL"><a href="#Mybatis中Mapper-xml的SQL" class="headerlink" title="Mybatis中Mapper.xml的SQL"></a>Mybatis中Mapper.xml的SQL</h2><p>在工作中，我们可能常常会碰见这样一个需求，根据不同的表单数据更新到不同的数据表中。点进来瞧瞧你有没有遇到这样的需求！<a id="more"></a><br>        比如有三个表单：楼栋任务的表单，房屋任务的表单，设施任务的表单<br>        现在要根据对不同表单的修改，然后将修改完的表单数据插入到相对应的数据表中，或许有人会说，根据串过来的参数，判断需要插入那张表不就行了，确实这种方法可以，但稍显笨重，有没有更好的方法么，有的，一起来看看吧。</p><pre><code> &lt;update id=&quot;updateTable&quot; parameterType=&quot;map&quot; statementType=&quot;STATEMENT&quot;&gt;                update ${tableName} set  ${field}=${value} where uuid=${uuid};    &lt;/update&gt;我们可以看到，表名是动态的，字段是动态的，值也是动态的，一条SQL就解决了这个需求，很简洁。这里的关键就是需要加一个  **statementType=&quot;STATEMENT&quot;**，这样它才能是动态的，千万记得。</code></pre>]]></content>
-      
-      
-      <categories>
-          
-          <category> SSM框架问题 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> SSM </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Mysql时间戳格式转换问题</title>
       <link href="/2019/03/12/Mysql%E6%97%B6%E9%97%B4%E6%88%B3%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/"/>
       <url>/2019/03/12/Mysql%E6%97%B6%E9%97%B4%E6%88%B3%E6%A0%BC%E5%BC%8F%E8%BD%AC%E6%8D%A2/</url>
@@ -446,6 +446,31 @@
         <tags>
             
             <tag> Mysql </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Mybatis中Mapper相关问题</title>
+      <link href="/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/"/>
+      <url>/2019/03/12/Mybatis%E4%B8%ADMapper.xml%E7%9A%84SQL/</url>
+      
+        <content type="html"><![CDATA[<h2 id="Mybatis中Mapper-xml的SQL"><a href="#Mybatis中Mapper-xml的SQL" class="headerlink" title="Mybatis中Mapper.xml的SQL"></a>Mybatis中Mapper.xml的SQL</h2><p>在工作中，我们可能常常会碰见这样一个需求，根据不同的表单数据更新到不同的数据表中。点进来瞧瞧你有没有遇到这样的需求！<a id="more"></a><br>        比如有三个表单：楼栋任务的表单，房屋任务的表单，设施任务的表单<br>        现在要根据对不同表单的修改，然后将修改完的表单数据插入到相对应的数据表中，或许有人会说，根据串过来的参数，判断需要插入那张表不就行了，确实这种方法可以，但稍显笨重，有没有更好的方法么，有的，一起来看看吧。</p><pre><code> &lt;update id=&quot;updateTable&quot; parameterType=&quot;map&quot; statementType=&quot;STATEMENT&quot;&gt;                update ${tableName} set  ${field}=${value} where uuid=${uuid};    &lt;/update&gt;我们可以看到，表名是动态的，字段是动态的，值也是动态的，一条SQL就解决了这个需求，很简洁。这里的关键就是需要加一个  **statementType=&quot;STATEMENT&quot;**，这样它才能是动态的，千万记得。</code></pre>]]></content>
+      
+      
+      <categories>
+          
+          <category> SSM框架问题 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> SSM </tag>
             
         </tags>
       

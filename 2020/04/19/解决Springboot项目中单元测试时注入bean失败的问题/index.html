@@ -92,18 +92,18 @@
 
 
 
-<meta name="description" content="拦截器-将所有为null属性转为’’最近项目出现了这个需求，记录一下。">
+<meta name="description" content="解决Springboot项目中单元测试时注入bean失败的问题最近项目出现了这个问题，记录一下。">
 <meta name="keywords" content="Java">
 <meta property="og:type" content="article">
-<meta property="og:title" content="拦截器-将所有为null属性转为&#39;&#39;">
-<meta property="og:url" content="https://dingjialucool.github.io/2020/04/19/拦截器-将所有为null属性转为''/index.html">
+<meta property="og:title" content="解决Springboot项目中单元测试时注入bean失败的问题">
+<meta property="og:url" content="https://dingjialucool.github.io/2020/04/19/解决Springboot项目中单元测试时注入bean失败的问题/index.html">
 <meta property="og:site_name" content="及时行乐">
-<meta property="og:description" content="拦截器-将所有为null属性转为’’最近项目出现了这个需求，记录一下。">
+<meta property="og:description" content="解决Springboot项目中单元测试时注入bean失败的问题最近项目出现了这个问题，记录一下。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-19T14:19:09.188Z">
+<meta property="og:updated_time" content="2020-04-19T14:18:17.565Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="拦截器-将所有为null属性转为&#39;&#39;">
-<meta name="twitter:description" content="拦截器-将所有为null属性转为’’最近项目出现了这个需求，记录一下。">
+<meta name="twitter:title" content="解决Springboot项目中单元测试时注入bean失败的问题">
+<meta name="twitter:description" content="解决Springboot项目中单元测试时注入bean失败的问题最近项目出现了这个问题，记录一下。">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="https://dingjialucool.github.io/2020/04/19/拦截器-将所有为null属性转为''/">
+  <link rel="canonical" href="https://dingjialucool.github.io/2020/04/19/解决Springboot项目中单元测试时注入bean失败的问题/">
 
 
 
 
 
-  <title>拦截器-将所有为null属性转为'' | 及时行乐</title>
+  <title>解决Springboot项目中单元测试时注入bean失败的问题 | 及时行乐</title>
   
 
 
@@ -287,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://dingjialucool.github.io/2020/04/19/拦截器-将所有为null属性转为''/">
+    <link itemprop="mainEntityOfPage" href="https://dingjialucool.github.io/2020/04/19/解决Springboot项目中单元测试时注入bean失败的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DingZiFan">
@@ -304,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">拦截器-将所有为null属性转为''</h1>
+          <h1 class="post-title" itemprop="name headline">解决Springboot项目中单元测试时注入bean失败的问题</h1>
         
 
         <div class="post-meta">
@@ -356,7 +356,7 @@
 
           
           
-             <span id="/2020/04/19/拦截器-将所有为null属性转为''/" class="leancloud_visitors" data-flag-title="拦截器-将所有为null属性转为''">
+             <span id="/2020/04/19/解决Springboot项目中单元测试时注入bean失败的问题/" class="leancloud_visitors" data-flag-title="解决Springboot项目中单元测试时注入bean失败的问题">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -381,7 +381,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  344
+                  202
                 </span>
               
 
@@ -418,40 +418,16 @@
       
 
       
-        <h2 id="拦截器-将所有为null属性转为’’"><a href="#拦截器-将所有为null属性转为’’" class="headerlink" title="拦截器-将所有为null属性转为’’"></a>拦截器-将所有为null属性转为’’</h2><p>最近项目出现了这个需求，记录一下。<a id="more"></a></p>
-<p>1.需求：返回前端的数据中，很多没有值的属性都为null，而前端所需要的是没有值就返回空字符<br>2.实现方式：</p>
+        <h2 id="解决Springboot项目中单元测试时注入bean失败的问题"><a href="#解决Springboot项目中单元测试时注入bean失败的问题" class="headerlink" title="解决Springboot项目中单元测试时注入bean失败的问题"></a>解决Springboot项目中单元测试时注入bean失败的问题</h2><p>最近项目出现了这个问题，记录一下。<a id="more"></a></p>
+<p>1.问题：在进行单元测试的时候，出现了一个错误，bean注入失败了<br>2.解决问题：</p>
 <ul>
-<li><p>在拦截器中加上如下代码<br>  @Configuration<br>public class WebConfig extends WebMvcConfigurationSupport{</p>
-<p> @Autowired<br> private TokenInterceptor tokenInterceptor;</p>
-<p> /**</p>
-<ul>
-<li><p>自定义拦截器<br>*/<br>@Override<br>protected void addInterceptors(InterceptorRegistry registry) {<br> registry.addInterceptor(tokenInterceptor).addPathPatterns(“/**”)</p>
-<pre><code>.excludePathPatterns(&quot;/api/login&quot;,&quot;/api/setting&quot;, &quot;/api/info/info/kmlUpload&quot;,&quot;/api/file/upload&quot;,&quot;/api/file/ioimage&quot;,&quot;/api/kafka/send/**&quot;, &quot;/api/basedata&quot;,&quot;/error&quot;, &quot;/swagger-resources&quot;, 
-        &quot;/api/bot/resource/live-broadcast/getSendUrl&quot;,&quot;/api/bot/resource/live-broadcast/getPlayUrl&quot;, &quot;/*.html&quot; ,&quot;/webjars/**&quot;,&quot;/api/warning/event-info/**&quot;,&quot;/api/bot/warning/warning/**&quot;,&quot;/api/info/info/**&quot;);
-</code></pre><p> super.addInterceptors(registry);<br>}</p>
-<p>@Override<br>public void addResourceHandlers(ResourceHandlerRegistry registry) {<br> registry.addResourceHandler(“/**”).addResourceLocations(“classpath:/static/“);<br> registry.addResourceHandler(“doc.html”)</p>
-<pre><code>.addResourceLocations(&quot;classpath:/META-INF/resources/&quot;);
-</code></pre><p> registry.addResourceHandler(“/webjars/**”)</p>
-<pre><code>.addResourceLocations(&quot;classpath:/META-INF/resources/webjars/&quot;);
-</code></pre><p> super.addResourceHandlers(registry);<br>}</p>
-<p>@Override<br>public void configureMessageConverters(List&lt;HttpMessageConverter&lt;?&gt;&gt; converters) {<br> FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();<br> FastJsonConfig fastJsonConfig = new FastJsonConfig();<br> fastJsonConfig.setSerializerFeatures(</p>
-<pre><code>//List字段如果为null,输出为[],而非null
-SerializerFeature.WriteNullListAsEmpty,
-//是否输出值为null的字段,默认为false
-SerializerFeature.WriteMapNullValue,
-//字符串null返回空字符串
-SerializerFeature.WriteNullStringAsEmpty,
-//空布尔值返回false
-SerializerFeature.WriteNullBooleanAsFalse,
-//结果是否格式化,默认为false
-SerializerFeature.PrettyFormat,
-//数值字段如果为null,输出为0,而非null
-SerializerFeature.WriteNullNumberAsZero);
-</code></pre><p> //格式化日期<br>//        fastJsonConfig.setDateFormat(“YYYY-MM-dd HH:mm:ss”);<br> converter.setFastJsonConfig(fastJsonConfig);<br> converters.add(converter);<br>}</p>
-</li>
+<li>网上百度了很多，终于找到了解决方法。<br>这个方法的前提是  1.测试类包名和启动类包名一致 2.不存在版本原因导致的错误</li>
 </ul>
-</li>
-</ul>
+<p>package com.chinobot;</p>
+<p>import org.junit.runner.RunWith;<br>import org.springframework.boot.test.context.SpringBootTest;<br>import org.springframework.test.context.junit4.SpringRunner;</p>
+<p>@RunWith(SpringRunner.class)<br>@SpringBootTest(classes = Application.class,webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)<br>public abstract class BaseTest {</p>
+<p>}</p>
+<p>最主要的是在@SpringBootTest 注释中加了 webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT ，加了这个注解bean注入成功。<br>最后写了一个抽象类，以后直接继承这个基类就方便多了。</p>
 
       
     </div>
@@ -482,8 +458,8 @@ SerializerFeature.WriteNullNumberAsZero);
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/09/查询部门及所有子部门/" rel="next" title="查询部门及所有子部门">
-                <i class="fa fa-chevron-left"></i> 查询部门及所有子部门
+              <a href="/2020/04/19/拦截器-将所有为null属性转为''/" rel="next" title="拦截器-将所有为null属性转为''">
+                <i class="fa fa-chevron-left"></i> 拦截器-将所有为null属性转为''
               </a>
             
           </div>
@@ -491,10 +467,6 @@ SerializerFeature.WriteNullNumberAsZero);
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/04/19/解决Springboot项目中单元测试时注入bean失败的问题/" rel="prev" title="解决Springboot项目中单元测试时注入bean失败的问题">
-                解决Springboot项目中单元测试时注入bean失败的问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -670,7 +642,7 @@ SerializerFeature.WriteNullNumberAsZero);
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#拦截器-将所有为null属性转为’’"><span class="nav-number">1.</span> <span class="nav-text">拦截器-将所有为null属性转为’’</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解决Springboot项目中单元测试时注入bean失败的问题"><span class="nav-number">1.</span> <span class="nav-text">解决Springboot项目中单元测试时注入bean失败的问题</span></a></li></ol></div>
             
 
           </div>
